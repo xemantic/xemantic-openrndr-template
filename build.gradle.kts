@@ -112,6 +112,8 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Jar> {
     manifest {
         attributes["Main-Class"] = applicationMainClass
+        // Impl Version is important to detect if we are running from IDE or from jar archive
+        attributes["Implementation-Version"] = archiveVersion
     }
     doFirst {
         from(configurations.compileClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
