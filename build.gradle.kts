@@ -11,7 +11,7 @@ plugins {
 group = "com.xemantic.art"
 version = "1.0-SNAPSHOT"
 
-val applicationMainClass = "com.xemantic.art.rainbowdancers.RainbowDancersKt"
+val applicationMainClass = "com.xemantic.openrndr.template.XemanticOpenrndrTemplateKt"
 
 val openrndrUseSnapshot = false
 val openrndrVersion = if (openrndrUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.35"
@@ -23,7 +23,7 @@ val openrndrOs = when (OperatingSystem.current()) {
 }
 
 // supported features are: video, panel
-val openrndrFeatures = setOf("video", "panel", "kinect-v1")
+val openrndrFeatures = setOf<String>() //"video", "panel", "kinect-v1"
 
 val panelUseSnapshot = false
 val panelVersion = if (panelUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.17-m3"
@@ -35,7 +35,7 @@ val orxVersion = if (orxUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.35"
 // orx-integral-image, orx-interval-tree, orx-jumpflood,orx-kdtree, orx-mesh-generators,orx-midi, orx-no-clear,
 // orx-noise, orx-obj, orx-olive
 
-val orxFeatures = setOf("orx-noise")
+val orxFeatures = setOf<String>() //"orx-noise", "orx-kinect-v1"
 
 repositories {
     mavenCentral()
@@ -59,15 +59,19 @@ fun DependencyHandler.orxNatives(module: String): Any {
     return "org.openrndr.extra:$module-natives-$openrndrOs:$orxVersion"
 }
 
+fun DependencyHandler.xemanticOpenrndr(module: String): Any {
+    return "com.xemantic.openrndr:xemantic-openrndr-$module:$xemanticOpenrndrVersion"
+}
+
 dependencies {
-    compile("com.xemantic.openrndr:xemantic-openrndr-core:$xemanticOpenrndrVersion")
-    //compile("com.xemantic.openrndr:xemantic-openrndr-color:$xemanticOpenrndrVersion")
-    compile("com.xemantic.openrndr:xemantic-openrndr-video:$xemanticOpenrndrVersion")
+    compile(xemanticOpenrndr("core"))
+//    compile(xemanticOpenrndr("color"))
+    compile(xemanticOpenrndr("video"))
 
     runtime(openrndr("gl3"))
     runtime(openrndrNatives("gl3"))
-    compile(openrndr("core"))
-    compile(openrndr("svg"))
+//    compile(openrndr("core"))
+//    compile(openrndr("svg"))
 //    compile(openrndr("animatable"))
 //    compile(openrndr("extensions"))
 //    compile(openrndr("filter"))
@@ -113,18 +117,15 @@ tasks.withType<Jar> {
         from(configurations.compileClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
         from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
     }
-
+    from("./") {
+        include("media/**")
+    }
+    from("./src/main") {
+        include("glsl/**")
+    }
     exclude(listOf("META-INF/*.RSA", "META-INF/*.SF", "META-INF/*.DSA", "**/module-info*"))
     archiveFileName.set("application-$openrndrOs.jar")
 }
-
-tasks.create("zipDistribution", Zip::class.java) {
-    archiveFileName.set("application-$openrndrOs.zip")
-    from("./") {
-        include("data/**")
-    }
-    from("$buildDir/libs/application-$openrndrOs.jar")
-}.dependsOn(tasks.jar)
 
 tasks.create("run", JavaExec::class.java) {
     main = applicationMainClass
