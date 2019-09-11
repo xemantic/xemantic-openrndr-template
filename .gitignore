@@ -1,6 +1,7 @@
 #gradle files
 /build
 /.gradle
+/out
 
 # idea files
 /.idea/*
