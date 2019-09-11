@@ -1,7 +1,13 @@
 <component name="ProjectDictionaryState">
   <dictionary name="morisil">
     <words>
+      <w>animatable</w>
+      <w>coroutines</w>
+      <w>ffmpeg</w>
       <w>glsl</w>
+      <w>kinect</w>
+      <w>kotlinx</w>
+      <w>macos</w>
       <w>openrndr</w>
       <w>xemantic</w>
     </words>
