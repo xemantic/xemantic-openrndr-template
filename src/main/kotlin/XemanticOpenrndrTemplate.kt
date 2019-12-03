@@ -11,14 +11,14 @@ fun main() = application {
   )
   configure {
     context.configure(this)
+    hideCursor = true
   }
   program {
     extend(context)
-    val feedbackBuffer = context.colorBuffer()
     val feedbackShader = context.fragmentShader("Feedback.frag")
     extend {
-      feedbackShader.apply(feedbackBuffer, feedbackBuffer)
+      feedbackShader.apply(feedbackShader.previousColorBuffer!!, feedbackShader.colorBuffer)
     }
-    extend(ScreenOutput(feedbackBuffer))
+    extend(ScreenOutput(feedbackShader.colorBuffer))
   }
 }
