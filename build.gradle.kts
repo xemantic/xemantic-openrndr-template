@@ -23,7 +23,7 @@ val openrndrOs = when (OperatingSystem.current()) {
 }
 
 // supported features are: video, panel
-val openrndrFeatures = setOf<String>() //"video", "panel", "kinect-v1"
+val openrndrFeatures = setOf<String>() //"video", "panel"
 
 val panelUseSnapshot = false
 val panelVersion = if (panelUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.17-m3"
