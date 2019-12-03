@@ -1,12 +1,12 @@
 import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val kotlinVersion = "1.3.50"
+val kotlinVersion = "1.3.61"
 val xemanticOpenrndrVersion = "1.0-SNAPSHOT"
 
 plugins {
     java
-    kotlin("jvm") version("1.3.50")
+    kotlin("jvm") version("1.3.61")
 }
 group = "com.xemantic.art"
 version = "1.0-SNAPSHOT"
@@ -14,7 +14,7 @@ version = "1.0-SNAPSHOT"
 val applicationMainClass = "com.xemantic.openrndr.template.XemanticOpenrndrTemplateKt"
 
 val openrndrUseSnapshot = false
-val openrndrVersion = if (openrndrUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.36-rc7"
+val openrndrVersion = if (openrndrUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.36"
 val openrndrOs = when (OperatingSystem.current()) {
     OperatingSystem.WINDOWS -> "windows"
     OperatingSystem.MAC_OS -> "macos"
@@ -29,7 +29,7 @@ val panelUseSnapshot = false
 val panelVersion = if (panelUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.17-m3"
 
 val orxUseSnapshot = false
-val orxVersion = if (orxUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.38"
+val orxVersion = if (orxUseSnapshot) "0.4.0-SNAPSHOT" else "0.3.42"
 
 // supported features are: orx-camera, orx-compositor,orx-easing, orx-filter-extension,orx-file-watcher, orx-kinect-v1
 // orx-integral-image, orx-interval-tree, orx-jumpflood,orx-kdtree, orx-mesh-generators,orx-midi, orx-no-clear,
@@ -43,23 +43,23 @@ repositories {
     maven(url = "https://dl.bintray.com/openrndr/openrndr")
 }
 
-fun DependencyHandler.orx(module: String): Any {
+fun orx(module: String): Any {
         return "org.openrndr.extra:$module:$orxVersion"
 }
 
-fun DependencyHandler.openrndr(module: String): Any {
+fun openrndr(module: String): Any {
     return "org.openrndr:openrndr-$module:$openrndrVersion"
 }
 
-fun DependencyHandler.openrndrNatives(module: String): Any {
+fun openrndrNatives(module: String): Any {
     return "org.openrndr:openrndr-$module-natives-$openrndrOs:$openrndrVersion"
 }
 
-fun DependencyHandler.orxNatives(module: String): Any {
+fun orxNatives(module: String): Any {
     return "org.openrndr.extra:$module-natives-$openrndrOs:$orxVersion"
 }
 
-fun DependencyHandler.xemanticOpenrndr(module: String): Any {
+fun xemanticOpenrndr(module: String): Any {
     return "com.xemantic.openrndr:xemantic-openrndr-$module:$xemanticOpenrndrVersion"
 }
 
