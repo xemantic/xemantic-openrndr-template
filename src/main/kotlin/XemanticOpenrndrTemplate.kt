@@ -11,7 +11,7 @@ fun main() = application {
   )
   configure {
     context.configure(this)
-    hideCursor = true
+    hideCursor = false
   }
   program {
     extend(context)
@@ -19,6 +19,6 @@ fun main() = application {
     extend {
       feedbackShader.apply(feedbackShader.previousColorBuffer!!, feedbackShader.colorBuffer)
     }
-    extend(ScreenOutput(feedbackShader.colorBuffer))
+    extend(ScreenOutput(feedbackShader))
   }
 }
